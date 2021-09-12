@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 st.title('Pair-Trading Backtesting')
 
-st.write('Backtest pair-trading strategies using Price, Metric, Return, Signal chart')
+st.write('Backtest pair-trading strategies using Price, SignalMetric, Return, Weight chart')
 
 start_date = st.date_input('Select start_date')
 end_date = end_date = datetime.datetime.today()
@@ -103,5 +103,44 @@ ax5.stackplot(target_signal.index, np.transpose(target_signal),labels = target_s
 ax5.legend(loc = 'upper left')
 
 st.pyplot(fig)
+
+# Pair Prices
+#
+# fig, ax1 = plt.subplots(figsize=(15,7))
+# ax2 = ax1.twinx()
+# ax1.plot(pairs_df[pairs_df.keys()[0]], color = 'dodgerblue', label = pairs_df.keys()[0])
+# ax2.plot(pairs_df[pairs_df.keys()[1]], color = 'orangered', label = pairs_df.keys()[1])
+# ax1.set_ylabel(pairs_df.keys()[0])
+# ax1.legend(loc = 'upper left')
+# ax2.legend(loc = 'lower right')
+# ax2.set_ylabel(pairs_df.keys()[1])
+# plt.show()
+
+# Relative Ratio for Pair Prices
+# plt.figure(figsize=(15,7))
+# plt.title('equity_bollinger_band')
+# bb['ratio'].plot(color = 'paleturquoise')
+# bb['upper'].plot(linestyle='--')
+# bb['lower'].plot(linestyle='--')
+# bb[bb['ratio']>bb['upper']]['ratio'].plot(color='r', linestyle='None', marker='^', label = pairs_df.keys()[1])
+# bb[bb['ratio']<bb['lower']]['ratio'].plot(color='g', linestyle='None', marker='v', label = pairs_df.keys()[0])
+# plt.legend()
+# plt.show()
+
+
+# Cumulative Compounded Returns for Pair_traing strategy
+# plt.figure(figsize=(17,7))
+# plt.title('Pair Trading Strategy Return')
+# plt.plot((1 + pt_return).cumprod() - 1, label = 'Pair_Trading')
+# plt.legend()
+# plt.show()
+
+# Cross-Sectional Weights
+# target_signal = pt_signal[[pairs_df.keys()[0],pairs_df.keys()[1]]]
+# plt.figure(figsize=(17,7))
+# plt.title('Cross-Sectional Weights')
+# plt.stackplot(target_signal.index, np.transpose(target_signal),labels = target_signal.columns)
+# plt.legend()
+# plt.show()
 
 
