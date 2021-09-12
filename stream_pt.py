@@ -1,9 +1,15 @@
+# pair_trading 전략
+# 0. parameter 입력
+# 1. 데이터 가져오기
+# 2. 타겟 pair 자산 입력
+# 3. 시그널 메트릭 산출
+# 4. 수익률 산출하기
+
 from pair_trading import *
 import streamlit as st
 import matplotlib.pyplot as plt
 
-
-
+# 0. parameter 입력
 start_date = '2020-08-01'
 end_date = datetime.datetime.today()
 TICKER = ['URTH','VEA', 'VPL', 'EPP', 'VGK', 'IEMG', 'GMF', 'SPY', 'QQQ', 'ILF', 'EWZ', 'EWW', 'EWC', 'EWH'
@@ -11,18 +17,23 @@ TICKER = ['URTH','VEA', 'VPL', 'EPP', 'VGK', 'IEMG', 'GMF', 'SPY', 'QQQ', 'ILF',
 window = 120
 stdev = 1.2
 
-
+# 1. 데이터 가져오기
 df = get_data(TICKER, start_date, end_date)
 best_pairs =  get_cointegrated_pairs(df)[1]
 # 'INDY','EWA' : '2014-10-01'
 # 'VPL' ,'IEMG' : '2015-10-01'
-pairs = ['EWA','EWC']
+
+# 2. 타겟 pair 자산 입력
+pairs = ['VGK','EWC']
 pairs_df = df.loc[:, pairs]
+
+# 3. 시그널 메트릭 산출
 bb = get_bollinger_band(pairs_df, window, stdev)
 pt_signal = get_pt_signal(df, pairs_df, bb)
+
+# 4. 수익률 산출하기
 pt_return =get_pt_return(df,pt_signal)
 target_signal = pt_signal[[pairs_df.keys()[0],pairs_df.keys()[1]]]
-
 
 # chart
 fig = plt.figure(figsize = (25,20))
