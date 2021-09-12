@@ -25,6 +25,7 @@ TICKER_1 = {'MSCI WORLD' : 'URTH',
           'Canada' : 'EWC',
           'Hongkong' : 'EWH',
           'China' : 'GXC',
+          'Japan' : 'EWJ',
           'India' : 'INDY',
           'Vietnam' : 'VNM',
           'Austrailia' : 'EWA',
@@ -50,6 +51,7 @@ TICKER_2 = {'MSCI WORLD' : 'URTH',
           'Canada' : 'EWC',
           'Hongkong' : 'EWH',
           'China' : 'GXC',
+          'Japan' : 'EWJ',
           'India' : 'INDY',
           'Vietnam' : 'VNM',
           'Austrailia' : 'EWA',
@@ -63,8 +65,6 @@ pairs = [selected_stock_value_1, selected_stock_value_2]
 
 window = 120
 stdev = 1.2
-
-
 
 
 df = get_data(pairs, start_date, end_date)
@@ -90,14 +90,18 @@ ax3 = fig.add_subplot(412, ylabel='Relative Ratio for Pair Prices')
 bb['ratio'].plot(color = 'paleturquoise')
 bb['upper'].plot(linestyle='--')
 bb['lower'].plot(linestyle='--')
-bb[bb['ratio']>bb['upper']]['ratio'].plot(color='r', linestyle='None', marker='^', label = pairs_df.keys()[1])
-bb[bb['ratio']<bb['lower']]['ratio'].plot(color='g', linestyle='None', marker='v', label = pairs_df.keys()[0])
+ax3.plot(bb[bb['ratio']>bb['upper']]['ratio'], color='r', linestyle='None', marker='^', label = pairs_df.keys()[1])
+ax3.plot(bb[bb['ratio']<bb['lower']]['ratio'], color='g', linestyle='None', marker='v', label = pairs_df.keys()[0])
+ax3.legend(loc = 'upper left')
 
 ax4 = fig.add_subplot(413, ylabel='Cumulative Compounded Returns for Pair_traing strategy')
 ax4.plot((1 + pt_return).cumprod() - 1, label = 'Pair_Trading')
+ax4.legend(loc = 'upper left')
 
 ax5 = fig.add_subplot(414, ylabel='Cross-Sectional Weights')
 ax5.stackplot(target_signal.index, np.transpose(target_signal),labels = target_signal.columns)
+ax5.legend(loc = 'upper left')
+
 st.pyplot(fig)
 
 
